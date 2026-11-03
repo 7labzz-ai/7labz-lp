@@ -50,6 +50,15 @@ export default function Footer() {
       <div className={styles.legal}>
         <p>© {year} property7</p>
         <p>All rights reserved</p>
+        <p>
+          <TransitionLink href="/privacy" className={styles.legalLink}>
+            Privacy
+          </TransitionLink>
+          {' · '}
+          <TransitionLink href="/terms" className={styles.legalLink}>
+            Terms
+          </TransitionLink>
+        </p>
       </div>
     </footer>
   )

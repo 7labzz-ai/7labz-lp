@@ -10,5 +10,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
       images: [`${SITE_URL}/opengraph-image.png`],
     },
+    ...['/privacy', '/terms'].map(path => ({
+      url: `${SITE_URL}${path}`,
+      lastModified: new Date(),
+      changeFrequency: 'yearly' as const,
+      priority: 0.2,
+    })),
   ]
 }

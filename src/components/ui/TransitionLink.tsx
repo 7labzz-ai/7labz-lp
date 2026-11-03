@@ -36,7 +36,13 @@ export default function TransitionLink({ href, children, onClick, ...props }: Pr
           onClick?.(e)
           if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return
           const target = document.querySelector<HTMLElement>(href)
-          if (!target || !lenis) return
+          // From another page (privacy, terms) the section lives on the home page.
+          if (!target) {
+            e.preventDefault()
+            navigate(`/${href}`)
+            return
+          }
+          if (!lenis) return
           e.preventDefault()
           lenis.scrollTo(layoutTop(target))
         }}
