@@ -1,0 +1,76 @@
+@use '../../styles/colors' as colors;
+@use '../../styles/utils' as utils;
+
+.page {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+  padding: utils.$space-24 utils.$space-6 utils.$space-24;
+  background-color: #ffffff;
+  color: colors.$brand-indigo;
+
+  @include utils.lg {
+    padding: utils.$space-32 utils.$space-8;
+  }
+
+  > * {
+    max-width: 44rem;
+    margin-inline: auto;
+  }
+}
+
+.back {
+  display: block;
+  margin-bottom: utils.$space-12;
+  font-family: var(--font-mono), monospace;
+  font-size: utils.$text-sm;
+  color: inherit;
+  text-decoration: none;
+}
+
+.title {
+  font-size: utils.$m-display;
+
+  @include utils.md {
+    font-size: utils.$text-5xl;
+  }
+}
+
+.updated {
+  margin-top: utils.$space-3;
+  font-family: var(--font-mono), monospace;
+  font-size: utils.$text-xs;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(colors.$brand-indigo, 0.6);
+}
+
+.intro {
+  margin-top: utils.$space-10;
+  font-size: utils.$text-lg;
+}
+
+.section {
+  margin-top: utils.$space-12;
+  padding-top: utils.$space-8;
+  border-top: 1px solid rgba(colors.$brand-indigo, 0.15);
+
+  h2 {
+    margin-bottom: utils.$space-4;
+    font-size: utils.$text-2xl;
+  }
+
+  p + p,
+  p + .list,
+  .list + p {
+    margin-top: utils.$space-4;
+  }
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: utils.$space-2;
+  padding-left: utils.$space-5;
+  list-style: disc;
+}
