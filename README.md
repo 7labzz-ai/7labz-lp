@@ -25,6 +25,9 @@ between them is a full page load. Every visible string is in `src/content/i18n/e
 (pt-PT, en, x-default → `/`) and `og:locale` come from `homeMetadata()` in
 `src/components/layout/RootShell.tsx`. The language switch keeps the section the reader was in.
 
+Unknown paths hit a catch-all (`[...missing]`) in each language that calls `notFound()`, so the
+404 renders inside that language's layout (`/en/...` in English, anything else in Portuguese).
+
 ## Contact form
 
 Every "Fala connosco" / "Talk to us" button leads to `#apply`, one form for businesses,

@@ -189,7 +189,7 @@ export const en = {
     paragraphs: [
       'Most studios sell hours. We would rather sell speed. 7labz is a small team of growth engineers: we find the part of a business that is slow, we build the thing that fixes it, and we stay long enough to see the hours come back',
       'We do not hand over a deck and leave. We embed inside the company, sit with the people who run it and rebuild how the work actually flows: the pipelines, the tools and the systems underneath. Restructuring from within, not advising from outside. Some of the companies we embed with have outgrown the way they run, some are AI startups that need a product shipped. Different problems, same team',
-      'We keep it boutique on purpose. A handful of businesses at a time, so every one of them works with the people doing the work, not someone relaying messages. When we are full, we are full. That is why you apply instead of book',
+      'We keep it boutique on purpose. A handful of businesses at a time, so every one of them works with the people doing the work, not someone relaying messages. When we are full, we are full. That is why it starts with a conversation',
       'We are opinionated, and we will not pretend otherwise. If something is not going to work, you will hear it before it ships, not after it gets expensive. Prove us wrong and we change our minds just as fast',
       'And every so often a founder is building something we cannot stop thinking about. That is what 7labz Ventures is for. Instead of an invoice, we take a stake: we put in the team, the time and, when it makes sense, the capital, and we build it with you like it is ours. Partly, it is',
       'Build with us, or let us build alongside you. Either way, the bar is the same',
@@ -205,7 +205,7 @@ export const en = {
 
   faq: {
     eyebrow: 'FAQ',
-    title: 'Before you apply',
+    title: 'Before we talk',
     // Draft copy: answers only restate what the rest of the page says, until the team signs them off.
     list: [
       {
@@ -302,6 +302,12 @@ export const en = {
     pickOne: 'Pick one',
     required: 'Fill in this field',
     invalidEmail: 'Enter a valid email',
+  },
+
+  notFound: {
+    title: 'This page does not exist',
+    body: 'The link may be old or mistyped',
+    back: 'Back to the home page',
   },
 
   footer: {

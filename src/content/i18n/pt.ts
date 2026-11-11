@@ -294,6 +294,12 @@ export const pt: Copy = {
     invalidEmail: 'Escreve um email válido',
   },
 
+  notFound: {
+    title: 'Esta página não existe',
+    body: 'O link pode estar desatualizado ou ter um erro',
+    back: 'Voltar à página inicial',
+  },
+
   footer: {
     rights: 'Todos os direitos reservados',
     privacy: 'Privacidade',
