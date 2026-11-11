@@ -2,6 +2,7 @@
 
 import ApplyButton from '@/components/ui/ApplyButton'
 import TransitionLink from '@/components/ui/TransitionLink'
+import { useCopy } from '@/components/providers/Locale'
 import { useLenis } from 'lenis/react'
 import { useEffect, useRef, useState } from 'react'
 
@@ -20,6 +21,7 @@ type Props = {
  * all close it.
  */
 export default function MobileMenu({ links }: Props) {
+  const { nav, cta } = useCopy()
   const [open, setOpen] = useState(false)
   const buttonRef = useRef<HTMLButtonElement>(null)
   const cardRef = useRef<HTMLDivElement>(null)
@@ -80,12 +82,12 @@ export default function MobileMenu({ links }: Props) {
           id="mobile-menu"
           className={styles.menuGroup}
           role="dialog"
-          aria-label="Menu"
+          aria-label={nav.menu}
           aria-hidden={!open}
           inert={!open}
         >
-          <p className={styles.menuEyebrow}>Menu</p>
-          <nav className={styles.menuLinks} aria-label="Main">
+          <p className={styles.menuEyebrow}>{nav.menu}</p>
+          <nav className={styles.menuLinks} aria-label={nav.main}>
             {links.map((link, i) => (
               <TransitionLink
                 key={link.href}
@@ -100,7 +102,7 @@ export default function MobileMenu({ links }: Props) {
             ))}
           </nav>
           <div className={styles.menuFoot}>
-            <ApplyButton href="#apply" label="Apply for a slot" pixelated onClick={close} />
+            <ApplyButton href="#apply" label={cta} pixelated onClick={close} />
             <p className={styles.menuNote}>© {new Date().getFullYear()} property7</p>
           </div>
         </div>
@@ -117,7 +119,7 @@ export default function MobileMenu({ links }: Props) {
             setOpen(value => !value)
           }}
         >
-          <span>{open ? 'Close' : 'Menu'}</span>
+          <span>{open ? nav.close : nav.menu}</span>
           <span className={styles.menuIcon} data-open={open} aria-hidden>
             <span />
             <span />

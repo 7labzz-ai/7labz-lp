@@ -2,6 +2,7 @@
 
 import { gsap, prefersReducedMotion, registerGsap, SplitText } from '@/lib/gsap'
 import { onPreloader } from '@/lib/preloader'
+import { useCopy } from '@/components/providers/Locale'
 import { useEffect, useRef } from 'react'
 import { preload } from 'react-dom'
 
@@ -17,6 +18,7 @@ const HERO_PARALLAX = 0.45
 export default function Hero() {
   // The still gates the horse's entrance, so fetch it before the component mounts.
   preload('/hero/horse.jpg', { as: 'image' })
+  const copy = useCopy()
   const sectionRef = useRef<HTMLElement>(null)
   const headingRef = useRef<HTMLHeadingElement>(null)
   const detailsRef = useRef<HTMLDivElement>(null)
@@ -119,16 +121,13 @@ export default function Hero() {
 
         <div className={styles.copy}>
           <h1 ref={headingRef} className={styles.heading}>
-            Boutique studio of
+            {copy.hero.line1}
             <br />
-            growth engineers
+            {copy.hero.line2}
           </h1>
           <div ref={detailsRef} className={styles.details}>
-            <p className={styles.lede}>
-              We build the systems that make a business faster: CRMs, automations, internal tools,
-              AI products. Live in weeks, and backed through 7labz Ventures when it is the right one
-            </p>
-            <ApplyButton href="#apply" label="Check availability" pixelated />
+            <p className={styles.lede}>{copy.hero.lede}</p>
+            <ApplyButton href="#apply" label={copy.cta} pixelated />
           </div>
         </div>
       </div>

@@ -35,7 +35,7 @@ export default function LegalPage({ doc }: { doc: LegalDocument }) {
           </section>
         ))}
       </main>
-      <Footer />
+      <Footer lang="en" />
     </>
   )
 }

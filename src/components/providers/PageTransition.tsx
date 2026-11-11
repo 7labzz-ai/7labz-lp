@@ -16,6 +16,7 @@ import { createPortal } from 'react-dom'
 
 import { useDocumentBody } from '@/hooks/useDocumentBody'
 import { gsap, prefersReducedMotion, registerGsap } from '@/lib/gsap'
+import { onPreloader } from '@/lib/preloader'
 
 import styles from './PageTransition.module.scss'
 
@@ -357,6 +358,18 @@ export default function PageTransition({
     },
     [lenis],
   )
+
+  // A link from outside (an ad, the language switch) can land on a section. The page opens at
+  // the top behind the preloader, so glide there once it has cleared.
+  const landedRef = useRef(false)
+  useEffect(() => {
+    if (!lenis) return
+    return onPreloader('done', () => {
+      if (landedRef.current) return
+      landedRef.current = true
+      if (window.location.hash) scrollToHash(window.location.hash, lenis)
+    })
+  }, [lenis])
 
   useEffect(() => {
     const onClick = (event: MouseEvent) => {

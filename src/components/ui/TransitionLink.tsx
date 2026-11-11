@@ -1,6 +1,8 @@
 'use client'
 
+import { useLang } from '@/components/providers/Locale'
 import { usePageTransitionNavigate } from '@/components/providers/PageTransition'
+import { COPY } from '@/content/i18n'
 import { useLenis } from 'lenis/react'
 import Link from 'next/link'
 import type { ComponentProps, MouseEventHandler } from 'react'
@@ -25,6 +27,7 @@ function layoutTop(element: HTMLElement) {
 export default function TransitionLink({ href, children, onClick, ...props }: Props) {
   const navigate = usePageTransitionNavigate()
   const lenis = useLenis()
+  const home = COPY[useLang()].path
 
   // In-page links glide to their section through Lenis instead of jumping.
   if (href.startsWith('#')) {
@@ -39,7 +42,7 @@ export default function TransitionLink({ href, children, onClick, ...props }: Pr
           // From another page (privacy, terms) the section lives on the home page.
           if (!target) {
             e.preventDefault()
-            navigate(`/${href}`)
+            navigate(`${home}${href}`)
             return
           }
           if (!lenis) return
