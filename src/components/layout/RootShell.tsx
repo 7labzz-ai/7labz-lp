@@ -73,6 +73,9 @@ export default function RootShell({ lang, children }: { lang: Lang; children: Re
   return (
     <html lang={COPY[lang].htmlLang} className={`${primaryFont.variable} ${monoFont.variable}`}>
       <body>
+        {/* Rendered by each language's root layout, which is where beforeInteractive belongs;
+            the rule only checks the file path. */}
+        {/* eslint-disable-next-line @next/next/no-before-interactive-script-outside-document */}
         <Script id="scroll-reset" strategy="beforeInteractive">
           {`if('scrollRestoration' in history){history.scrollRestoration='manual';}window.scrollTo(0,0);`}
         </Script>

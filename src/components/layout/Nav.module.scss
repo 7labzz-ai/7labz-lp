@@ -311,11 +311,12 @@ $menu-btn-h: 2.6rem;
     outline-offset: 3px;
   }
 
-  /* On phones it sits just left of the menu button; the open menu covers it. */
+  /* On phones the nav links live in the menu, so the switch takes their corner, top left,
+     clear of the logo in the middle. The open menu covers it. */
   @media (max-width: #{utils.$bp-md - 0.02px}) {
     position: absolute;
     top: 0;
-    right: calc(#{$menu-btn-w} + #{utils.$space-2});
+    left: 0;
     height: $menu-btn-h;
   }
 }
