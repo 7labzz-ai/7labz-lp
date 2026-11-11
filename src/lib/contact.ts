@@ -107,8 +107,16 @@ type Env = Record<string, string | undefined>
 type Fetch = typeof fetch
 type Destination = { name: string; send: () => Promise<Response> }
 
-/** Where requests go, from the environment. Either one can be missing, not both. */
-export function destinations(lead: Lead, env: Env, send: Fetch = fetch): Destination[] {
+/**
+ * Where requests go, from the environment. Either one can be missing, not both. `ip` is the
+ * visitor's, passed on so the CRM's per-IP limit counts people, not this server.
+ */
+export function destinations(
+  lead: Lead,
+  env: Env,
+  ip: string | null = null,
+  send: Fetch = fetch,
+): Destination[] {
   const list: Destination[] = []
   const text = summary(lead)
 
@@ -121,6 +129,7 @@ export function destinations(lead: Lead, env: Env, send: Fetch = fetch): Destina
           headers: {
             'Content-Type': 'application/json',
             ...(env.CRM_FORM_TOKEN && { Authorization: `Bearer ${env.CRM_FORM_TOKEN}` }),
+            ...(ip && { 'X-Visitor-IP': ip }),
           },
           // Field ids as the CRM's public forms name them (nome, email, telefone, empresa,
           // mensagem); the case goes in as a custom deal field.

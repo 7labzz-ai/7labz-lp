@@ -20,7 +20,8 @@ export async function POST(request: Request) {
   if (!checked.ok) return NextResponse.json({ ok: false, error: checked.error }, { status: 400 })
   if ('bot' in checked) return NextResponse.json({ ok: true })
 
-  const list = destinations(checked.lead, process.env)
+  const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || null
+  const list = destinations(checked.lead, process.env, ip)
   if (!list.length) {
     console.error('[contact] no destination configured: set CRM_FORM_URL and/or RESEND_*')
     return NextResponse.json({ ok: false, error: 'not_configured' }, { status: 503 })

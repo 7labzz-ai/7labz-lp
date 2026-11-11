@@ -14,7 +14,12 @@ const server = createServer((req, res) => {
   let body = ''
   req.on('data', chunk => (body += chunk))
   req.on('end', () => {
-    mock.calls.push({ path: req.url, auth: req.headers.authorization, body: JSON.parse(body) })
+    mock.calls.push({
+      path: req.url,
+      auth: req.headers.authorization,
+      ip: req.headers['x-visitor-ip'],
+      body: JSON.parse(body),
+    })
     res.writeHead(mock.fail ? 500 : 200, { 'Content-Type': 'application/json' })
     res.end('{}')
   })
@@ -52,7 +57,7 @@ const stopApp = app =>
 const post = async body => {
   const response = await fetch(`http://localhost:${APP_PORT}/api/apply`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', 'X-Forwarded-For': '203.0.113.7, 10.0.0.1' },
     body: JSON.stringify(body),
   })
   return { status: response.status, json: await response.json() }
@@ -99,6 +104,7 @@ try {
     const email = mock.calls.find(call => call.path === '/email')
     assert.ok(crm, 'nothing reached the CRM')
     assert.equal(crm.auth, 'Bearer test-token')
+    assert.equal(crm.ip, '203.0.113.7', 'the visitor IP was not passed on')
     assert.equal(crm.body.email, 'ana@exemplo.pt')
     assert.equal(crm.body.empresa, 'Empresa Exemplo Lda')
     assert.match(crm.body.mensagem, /Precisa: Orçamentos/)
