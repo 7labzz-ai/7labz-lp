@@ -43,15 +43,17 @@ export const pt: Copy = {
   },
 
   hero: {
-    line1: 'Estúdio boutique de',
+    // No-break space, so a narrow phone never leaves "de" alone on its line.
+    line1: 'Estúdio boutique\u00a0de',
     line2: 'growth engineers',
     lede: 'Construímos os sistemas que tornam um negócio mais rápido: CRM, automações, ferramentas internas, produtos de IA. A funcionar em semanas e, quando é o projeto certo, com o apoio da 7labz Ventures',
   },
 
   model: {
     eyebrow: 'O modelo',
-    line1: 'Uma equipa, quatro fases,',
-    line2: 'poucos negócios de cada vez',
+    // No-break spaces keep the short words together, so phones don't strand "fases,".
+    line1: 'Uma equipa, quatro\u00a0fases,',
+    line2: 'poucos negócios de\u00a0cada\u00a0vez',
     stages: [
       {
         id: 'map',
