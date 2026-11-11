@@ -25,8 +25,9 @@ between them is a full page load. Every visible string is in `src/content/i18n/e
 (pt-PT, en, x-default → `/`) and `og:locale` come from `homeMetadata()` in
 `src/components/layout/RootShell.tsx`. The language switch keeps the section the reader was in.
 
-Unknown paths hit a catch-all (`[...missing]`) in each language that calls `notFound()`, so the
-404 renders inside that language's layout (`/en/...` in English, anything else in Portuguese).
+Unknown paths get `src/app/global-not-found.tsx` (needs `experimental.globalNotFound` in
+`next.config.ts`): one server-rendered, styled 404 in Portuguese with the English underneath, since
+there's no single layout to build it from.
 
 ## Contact form
 

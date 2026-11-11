@@ -287,8 +287,9 @@ export const pt: Copy = {
     privacy: 'Usamos estes dados só para te responder.',
     privacyLink: 'Política de privacidade',
     sent: 'Recebido. Lemos tudo e respondemos por email',
-    error: (email: string) =>
-      `Não foi possível enviar. Tenta outra vez ou escreve-nos para ${email}`,
+    // The contact email follows, as a link.
+    error: 'Não foi possível enviar. Tenta outra vez ou escreve-nos para',
+    requiredNote: '* Obrigatório',
     pickOne: 'Escolhe uma opção',
     required: 'Preenche este campo',
     invalidEmail: 'Escreve um email válido',

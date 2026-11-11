@@ -17,6 +17,13 @@ type Status = 'idle' | 'sending' | 'sent' | 'error'
 
 type Field = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
 
+/** Marks a required field for the eye; the `required` attribute already tells screen readers. */
+const Req = () => (
+  <span aria-hidden className={styles.req}>
+    {' *'}
+  </span>
+)
+
 export default function Ventures() {
   const lang = useLang()
   const { ventures, form: t } = useCopy()
@@ -121,11 +128,15 @@ export default function Ventures() {
               {t.title}
             </h3>
             <p className={styles.formLede}>{t.lede}</p>
+            <p className={styles.requiredNote}>{t.requiredNote}</p>
           </header>
 
           {/* First who's asking; the fields for that case appear once it's picked. */}
           <fieldset className={styles.types}>
-            <legend className={styles.label}>{t.type}</legend>
+            <legend className={styles.label}>
+              {t.type}
+              <Req />
+            </legend>
             <div className={styles.typeOptions}>
               {CONTACT_TYPES.map(option => (
                 <label key={option} className={styles.typeOption}>
@@ -146,11 +157,17 @@ export default function Ventures() {
           {type && (
             <div className={styles.grid}>
               <label className={styles.field}>
-                <span className={styles.label}>{t.name}</span>
+                <span className={styles.label}>
+                  {t.name}
+                  <Req />
+                </span>
                 <input name="name" type="text" autoComplete="name" maxLength={120} required />
               </label>
               <label className={styles.field}>
-                <span className={styles.label}>{t.email}</span>
+                <span className={styles.label}>
+                  {t.email}
+                  <Req />
+                </span>
                 <input
                   name="email"
                   type="email"
@@ -161,7 +178,10 @@ export default function Ventures() {
                 />
               </label>
               <label className={styles.field}>
-                <span className={styles.label}>{t.company[type]}</span>
+                <span className={styles.label}>
+                  {t.company[type]}
+                  <Req />
+                </span>
                 <input
                   name="company"
                   type="text"
@@ -190,7 +210,10 @@ export default function Ventures() {
 
               {type !== 'founder' && (
                 <label className={`${styles.field} ${styles.wide}`}>
-                  <span className={styles.label}>{t.need[type]}</span>
+                  <span className={styles.label}>
+                    {t.need[type]}
+                    <Req />
+                  </span>
                   <textarea
                     name="need"
                     rows={3}
@@ -220,7 +243,10 @@ export default function Ventures() {
                     </select>
                   </label>
                   <label className={`${styles.field} ${styles.wide}`}>
-                    <span className={styles.label}>{t.building}</span>
+                    <span className={styles.label}>
+                      {t.building}
+                      <Req />
+                    </span>
                     <textarea name="building" rows={3} maxLength={4000} required />
                   </label>
                   <label className={`${styles.field} ${styles.wide}`}>
@@ -251,7 +277,14 @@ export default function Ventures() {
             />
             <p className={styles.note} role="status" data-status={status}>
               {status === 'sent' && t.sent}
-              {status === 'error' && t.error(CONTACT_EMAIL)}
+              {status === 'error' && (
+                <>
+                  {t.error}{' '}
+                  <a href={`mailto:${CONTACT_EMAIL}`} className={styles.mail}>
+                    {CONTACT_EMAIL}
+                  </a>
+                </>
+              )}
               {(status === 'idle' || status === 'sending') && t.note}
             </p>
           </div>

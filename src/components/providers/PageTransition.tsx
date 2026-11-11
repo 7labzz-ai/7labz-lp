@@ -247,6 +247,8 @@ function scrollToHash(hash: string, lenis?: Lenis, attempt = 0) {
     const distance = el.getBoundingClientRect().top
     if (lenis) {
       lenis.scrollTo(el, {
+        // Forced: on first load this runs as the preloader finishes, before Lenis is started.
+        force: true,
         immediate: prefersReducedMotion(),
         duration: hashScrollDuration(distance),
         easing: easeInOutCubic,
@@ -367,7 +369,10 @@ export default function PageTransition({
     return onPreloader('done', () => {
       if (landedRef.current) return
       landedRef.current = true
-      if (window.location.hash) scrollToHash(window.location.hash, lenis)
+      // A beat later: the preloader still resets the page's transform, re-measures the
+      // triggers and restarts Lenis right after it marks itself done, which cancels a scroll.
+      const hash = window.location.hash
+      if (hash) window.setTimeout(() => scrollToHash(hash, lenis), 100)
     })
   }, [lenis])
 

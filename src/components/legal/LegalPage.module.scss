@@ -74,3 +74,10 @@
   padding-left: utils.$space-5;
   list-style: disc;
 }
+
+/* A link inside running text, as on the 404. */
+.inlineLink {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}

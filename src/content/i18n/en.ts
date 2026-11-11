@@ -298,7 +298,9 @@ export const en = {
     privacy: 'We only use this to reply to you.',
     privacyLink: 'Privacy policy',
     sent: 'Got it. We read everything and reply by email',
-    error: (email: string) => `That did not go through. Try again, or email us at ${email}`,
+    // The contact email follows, as a link.
+    error: 'That did not go through. Try again, or email us at',
+    requiredNote: '* Required',
     pickOne: 'Pick one',
     required: 'Fill in this field',
     invalidEmail: 'Enter a valid email',

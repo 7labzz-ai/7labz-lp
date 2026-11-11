@@ -2,6 +2,8 @@ import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  // One root layout per language leaves no layout to build a 404 from; see global-not-found.tsx.
+  experimental: { globalNotFound: true },
   devIndicators: { position: 'bottom-left' },
   images: {
     formats: ['image/avif', 'image/webp'],

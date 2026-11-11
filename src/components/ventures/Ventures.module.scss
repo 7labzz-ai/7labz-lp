@@ -265,3 +265,21 @@
   text-decoration: underline;
   text-underline-offset: 0.2em;
 }
+
+.req {
+  color: colors.$foreground;
+}
+
+.requiredNote {
+  color: colors.$brand-lavender;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: utils.$text-xs;
+}
+
+/* An address reads wrong in capitals, and has to be tappable. */
+.mail {
+  color: colors.$foreground;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  text-transform: none;
+}
