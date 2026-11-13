@@ -1,13 +1,15 @@
 'use client'
 
 import { gsap, registerGsap } from '@/lib/gsap'
+import { useCopy } from '@/components/providers/Locale'
 import { useEffect, useRef } from 'react'
 
 import styles from './Manifesto.module.scss'
 import { SIGNATURES } from './signatureData'
 
-/** The three co-founder signatures, drawn on stroke by stroke as the row scrolls in. */
+/** The co-founder signatures, drawn on stroke by stroke as the row scrolls in. */
 export default function Signatures() {
+  const { manifesto, founders } = useCopy()
   const rowRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -41,14 +43,14 @@ export default function Signatures() {
 
   return (
     <div ref={rowRef} className={styles.signatures}>
-      {SIGNATURES.map(signature => (
+      {SIGNATURES.map((signature, i) => (
         <div key={signature.name} className={styles.signature}>
           <svg
             className={styles.mark}
             viewBox={signature.viewBox}
             fill="none"
             role="img"
-            aria-label={`${signature.name}'s signature`}
+            aria-label={manifesto.signature(signature.name)}
           >
             {signature.paths.map(d => (
               <path
@@ -62,7 +64,7 @@ export default function Signatures() {
             ))}
           </svg>
           <span className={styles.name}>{signature.name}</span>
-          <span className={styles.role}>{signature.role}</span>
+          <span className={styles.role}>{founders[i].role}</span>
         </div>
       ))}
     </div>

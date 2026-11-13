@@ -52,3 +52,5 @@ next-env.d.ts
 
 # personal tool settings
 .claude/settings.local.json
+
+!.env.example

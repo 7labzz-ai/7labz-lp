@@ -1,18 +1,16 @@
 'use client'
 
 import { gsap, registerGsap } from '@/lib/gsap'
+import { useCopy } from '@/components/providers/Locale'
 import { Fragment, useEffect, useRef } from 'react'
 
 import styles from './Manifesto.module.scss'
 
-// Draft copy: the culture lines are placeholders until the team signs them off.
-const PHRASES = ['Ship it this week', 'Say it straight', 'Home for dinner']
-
-function Line() {
+function Line({ phrases }: { phrases: string[] }) {
   return (
     <span className={styles.stripLine}>
       <Horse />
-      {PHRASES.map(phrase => (
+      {phrases.map(phrase => (
         <Fragment key={phrase}>
           <span>{phrase}</span>
           <Horse />
@@ -41,6 +39,7 @@ function Horse() {
  * second copy of the line is what lets it loop without a seam.
  */
 export default function TeamStrip() {
+  const { strip: phrases } = useCopy()
   const stripRef = useRef<HTMLDivElement>(null)
   const trackRef = useRef<HTMLDivElement>(null)
 
@@ -82,11 +81,11 @@ export default function TeamStrip() {
 
   return (
     <div ref={stripRef} className={styles.strip}>
-      <p className={styles.srOnly}>{PHRASES.join('. ')}</p>
+      <p className={styles.srOnly}>{phrases.join('. ')}</p>
       <div ref={trackRef} className={styles.stripTrack} aria-hidden>
-        <Line />
+        <Line phrases={phrases} />
         <span className={styles.stripLoop}>
-          <Line />
+          <Line phrases={phrases} />
         </span>
       </div>
     </div>

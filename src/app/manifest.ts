@@ -1,11 +1,13 @@
-import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE } from '@/content/site'
+import { COPY } from '@/content/i18n'
+import { SITE_NAME } from '@/content/site'
 import type { MetadataRoute } from 'next'
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: SITE_TITLE,
+    lang: 'pt-PT',
+    name: COPY.pt.meta.title,
     short_name: SITE_NAME,
-    description: SITE_DESCRIPTION,
+    description: COPY.pt.meta.description,
     start_url: '/',
     display: 'browser',
     background_color: '#ffffff',

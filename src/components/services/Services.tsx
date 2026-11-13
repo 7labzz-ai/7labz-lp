@@ -2,7 +2,7 @@
 
 import LiveMark from '@/components/ui/LiveMark'
 import { prefersReducedMotion, registerGsap, ScrollTrigger } from '@/lib/gsap'
-import { SERVICES } from '@/content/services'
+import { useCopy } from '@/components/providers/Locale'
 import { type Mark } from '@/lib/glyphMarks'
 import { revealSection } from '@/lib/reveal'
 import { useEffect, useRef, useState } from 'react'
@@ -10,6 +10,8 @@ import { useEffect, useRef, useState } from 'react'
 import styles from './Services.module.scss'
 
 export default function Services() {
+  const { services } = useCopy()
+  const SERVICES = services.list
   const sectionRef = useRef<HTMLElement>(null)
   const [active, setActive] = useState<Mark>(SERVICES[0].id)
 
@@ -41,10 +43,10 @@ export default function Services() {
     <section ref={sectionRef} id="services" className={styles.services}>
       <header className={styles.header}>
         <p className={styles.eyebrow} data-reveal>
-          Services
+          {services.eyebrow}
         </p>
         <h2 className={styles.title} data-reveal-lines>
-          What we build
+          {services.title}
         </h2>
       </header>
 

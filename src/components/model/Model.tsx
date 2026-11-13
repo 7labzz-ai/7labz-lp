@@ -2,41 +2,18 @@
 
 import ApplyButton from '@/components/ui/ApplyButton'
 import LiveMark from '@/components/ui/LiveMark'
-import { type Mark } from '@/lib/glyphMarks'
 import { revealSection } from '@/lib/reveal'
+import { useCopy } from '@/components/providers/Locale'
 import { useEffect, useRef } from 'react'
 
 import styles from './Model.module.scss'
 
-// Draft copy and slot numbers: placeholders until they're real.
-const STAGES: { id: Mark; title: string; body: string }[] = [
-  {
-    id: 'map',
-    title: 'Map',
-    body: 'A short run inside your business to find where the hours and the money leak',
-  },
-  {
-    id: 'build',
-    title: 'Build',
-    body: 'CRMs, automations, internal tools, AI products. Built by the people who mapped it, not handed down a chain',
-  },
-  {
-    id: 'ship',
-    title: 'Ship',
-    body: 'Live in weeks, not quarters. We stay until your team runs it without us',
-  },
-  {
-    id: 'back',
-    title: 'Back',
-    body: 'When a founder is building something we can’t stop thinking about, we take a stake through 7labz Ventures',
-  },
-]
-
+// Draft slot numbers: placeholders until they're real.
 const SLOTS = 3
 const SLOTS_TAKEN = 2
-const QUARTER = 'Q4 2026'
 
 export default function Model() {
+  const { model, cta } = useCopy()
   const sectionRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
@@ -49,16 +26,17 @@ export default function Model() {
     <section ref={sectionRef} id="model" className={styles.model}>
       <header className={styles.header}>
         <p className={styles.eyebrow} data-reveal>
-          The model
+          {model.eyebrow}
         </p>
         <h2 className={styles.title} data-reveal-lines>
-          One team, four stages,
-          <br />a few businesses at a time
+          {model.line1}
+          <br />
+          {model.line2}
         </h2>
       </header>
 
       <ol className={styles.stages}>
-        {STAGES.map((stage, i) => (
+        {model.stages.map((stage, i) => (
           <li key={stage.id} className={styles.stage} data-reveal>
             <LiveMark
               mark={stage.id}
@@ -84,10 +62,10 @@ export default function Model() {
             ))}
           </span>
           <span>
-            {QUARTER}: {SLOTS_TAKEN} of {SLOTS} slots taken
+            {model.quarter}: {model.slots(SLOTS_TAKEN, SLOTS)}
           </span>
         </div>
-        <ApplyButton href="#apply" label="Apply for a slot" tone="gray" pixelated />
+        <ApplyButton href="#apply" label={cta} tone="gray" pixelated />
       </div>
     </section>
   )

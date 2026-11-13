@@ -1,6 +1,6 @@
 'use client'
 
-import { PROCESS } from '@/content/site'
+import { useCopy } from '@/components/providers/Locale'
 import { gsap, prefersReducedMotion, registerGsap } from '@/lib/gsap'
 import { revealSection } from '@/lib/reveal'
 import NumberFlow from '@number-flow/react'
@@ -11,13 +11,13 @@ import styles from './TimeBack.module.scss'
 // Draft numbers: an illustrative week, labelled as such on the card, until the team has a
 // real one from a client it can show.
 // Each task says what takes it over, so the drop reads as work moved into a system rather
-// than hours that simply vanish.
+// than hours that simply vanish. The words for each task are in the copy, in this order.
 const WEEK = [
-  { label: 'Admin and data entry', fix: 'Synced by the CRM', before: 9, after: 2 },
-  { label: 'Chasing leads and follow-ups', fix: 'Automatic follow-ups', before: 6, after: 1 },
-  { label: 'Answering the same questions', fix: 'An AI assistant answers', before: 5, after: 1 },
-  { label: 'Quotes and invoicing', fix: 'Generated from the job', before: 4, after: 1 },
-  { label: 'Pulling numbers and reports', fix: 'A live dashboard', before: 3, after: 0 },
+  { before: 9, after: 2 },
+  { before: 6, after: 1 },
+  { before: 5, after: 1 },
+  { before: 4, after: 1 },
+  { before: 3, after: 0 },
 ]
 
 /** The tallest bar's hours, so every bar is drawn against the same scale. */
@@ -35,6 +35,7 @@ type Stage = 'hidden' | 'before' | 'switching' | 'after'
 const DROP_AT = 0.75
 
 export default function TimeBack() {
+  const { timeBack: t, process } = useCopy()
   const sectionRef = useRef<HTMLElement>(null)
   const chartRef = useRef<HTMLDivElement>(null)
   const lineRef = useRef<HTMLDivElement>(null)
@@ -142,55 +143,50 @@ export default function TimeBack() {
     <section ref={sectionRef} id="time-back" className={styles.timeBack}>
       <header className={styles.header}>
         <p className={styles.eyebrow} data-reveal>
-          Time back
+          {t.eyebrow}
         </p>
         <h2 className={styles.title} data-reveal-lines>
-          Get your evenings
+          {t.line1}
           <br />
-          back
+          {t.line2}
         </h2>
         <p className={styles.lede} data-reveal>
-          When we embed with a company, the first thing we find is the hours lost to admin, chasing
-          and reporting. Every hour a system takes off your team is an hour back for the work, and
-          for the people waiting at home
+          {t.lede}
         </p>
       </header>
 
       <div className={styles.panel}>
         <div ref={chartRef} className={styles.card} data-stage={stage}>
           <aside className={styles.rail}>
-            <p className={styles.railTitle}>A week, mapped</p>
-            <p className={styles.note}>Illustrative week</p>
+            <p className={styles.railTitle}>{t.railTitle}</p>
+            <p className={styles.note}>{t.railNote}</p>
           </aside>
 
           <div className={styles.chartBody}>
             <div className={styles.chartHead}>
-              <h3 className={styles.chartTitle}>Where a founder’s week goes</h3>
-              <p className={styles.chartLede}>
-                Hours a week spent on work a system could do. Keep scrolling to watch that work move
-                off your team and into systems
-              </p>
+              <h3 className={styles.chartTitle}>{t.chartTitle}</h3>
+              <p className={styles.chartLede}>{t.chartLede}</p>
             </div>
 
             {/* Which week the bars show, as a switch that visibly flips. */}
             <div className={styles.switch} data-on={switched} aria-live="polite">
               <span className={styles.switchKnob} aria-hidden />
               <span className={styles.switchOption} data-option="today">
-                Your week today
+                {t.today}
               </span>
               <span className={styles.switchOption} data-option="with">
-                With 7labz systems
+                {t.with}
               </span>
             </div>
 
             <ol className={styles.bars} data-bars>
-              {WEEK.map(task => {
+              {WEEK.map((task, i) => {
                 const value = stage === 'hidden' ? 0 : task[showing]
                 return (
-                  <li key={task.label} className={styles.column}>
+                  <li key={t.tasks[i].label} className={styles.column}>
                     <span className={styles.columnHead}>
-                      <span className={styles.columnLabel}>{task.label}</span>
-                      <span className={styles.fix}>{task.fix}</span>
+                      <span className={styles.columnLabel}>{t.tasks[i].label}</span>
+                      <span className={styles.fix}>{t.tasks[i].fix}</span>
                     </span>
                     <span
                       className={styles.barArea}
@@ -215,9 +211,9 @@ export default function TimeBack() {
                 <NumberFlow value={saved} />
               </span>
               <span className={styles.totalText}>
-                hours back every week,
+                {t.total1}
                 <br />
-                moved from people to systems
+                {t.total2}
               </span>
             </p>
           </div>
@@ -226,13 +222,13 @@ export default function TimeBack() {
 
       <div className={styles.timeline}>
         <p className={styles.timelineTitle} data-reveal>
-          And how fast you get them back
+          {t.timelineTitle}
         </p>
         <div className={styles.track}>
           <div ref={lineRef} className={styles.line} />
         </div>
         <ol className={styles.steps}>
-          {PROCESS.map(step => (
+          {process.map(step => (
             <li key={step.when} className={styles.step} data-reveal>
               <span className={styles.when}>{step.when}</span>
               <p className={styles.what}>{step.what}</p>

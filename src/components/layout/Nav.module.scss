@@ -285,3 +285,54 @@ $menu-btn-h: 2.6rem;
     transition: none;
   }
 }
+
+/* Language switch: beside the button on desktop, beside the menu button on phones. */
+.cta {
+  @include utils.md {
+    display: flex;
+    align-items: stretch;
+    gap: utils.$space-2;
+  }
+}
+
+.lang {
+  display: inline-flex;
+  align-items: center;
+  gap: utils.$space-2;
+  padding: 0 0.9em;
+  background-color: #ececee;
+  color: colors.$brand-indigo;
+  font-size: utils.$text-sm;
+  line-height: 1;
+  text-decoration: none;
+
+  &:focus-visible {
+    outline: 2px solid colors.$brand-indigo;
+    outline-offset: 3px;
+  }
+
+  /* On phones the nav links live in the menu, so the switch takes their corner, top left,
+     clear of the logo in the middle. The open menu covers it. */
+  @media (max-width: #{utils.$bp-md - 0.02px}) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: $menu-btn-h;
+  }
+}
+
+.flag {
+  display: block;
+  width: 1.25rem;
+  height: auto;
+  aspect-ratio: 3 / 2;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

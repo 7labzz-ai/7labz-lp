@@ -1,6 +1,6 @@
 /**
- * Who the site is about, in one place: metadata, structured data, robots, the sitemap and
- * llms.txt all read from here.
+ * Where the site lives and what it's called. The words, in each language, are in
+ * src/content/i18n.
  */
 
 /**
@@ -15,23 +15,3 @@ export const SITE_URL = (
 ).replace(/\/$/, '')
 
 export const SITE_NAME = '7labz'
-
-export const SITE_TITLE = '7labz | Boutique studio of growth engineers'
-
-export const SITE_DESCRIPTION =
-  'We build the systems that make a business faster: CRMs, automations, internal tools, websites and AI products. Live in weeks, built by a small team of growth engineers, with a venture arm, 7labz Ventures, that backs a few founders a year.'
-
-/** The co-founders, as named on the site. */
-export const FOUNDERS = [
-  { name: 'Mário', role: 'Co-founder, Management' },
-  { name: 'Miguel', role: 'Co-founder, Growth' },
-  { name: 'Gonçalo', role: 'Co-founder, Software' },
-]
-
-/** How an engagement runs, in the order the site tells it. */
-export const PROCESS = [
-  { when: 'Day 1', what: 'A call. You walk us through a normal week' },
-  { when: 'Week 1', what: 'We map where your hours go and pick what to fix first' },
-  { when: 'Week 2', what: 'The first system is live and your team is using it' },
-  { when: 'Week 4', what: 'It runs without you. The hours are yours again' },
-]

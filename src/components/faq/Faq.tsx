@@ -1,6 +1,6 @@
 'use client'
 
-import { FAQ } from '@/content/faq'
+import { useCopy } from '@/components/providers/Locale'
 import { gsap, prefersReducedMotion, registerGsap, ScrollTrigger } from '@/lib/gsap'
 import { revealSection } from '@/lib/reveal'
 import { useEffect, useRef, type MouseEvent, type SyntheticEvent } from 'react'
@@ -65,6 +65,7 @@ const sync = (event: SyntheticEvent<HTMLDetailsElement>) => {
 }
 
 export default function Faq() {
+  const { faq } = useCopy()
   const sectionRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
@@ -78,16 +79,16 @@ export default function Faq() {
       <div className={styles.body}>
         <header className={styles.header}>
           <p className={styles.eyebrow} data-reveal>
-            FAQ
+            {faq.eyebrow}
           </p>
           <h2 className={styles.title} data-reveal-lines>
-            Before you apply
+            {faq.title}
           </h2>
         </header>
 
         {/* Native <details>, so every answer is in the HTML even while it is closed. */}
         <div className={styles.list}>
-          {FAQ.map(item => (
+          {faq.list.map(item => (
             <details key={item.question} className={styles.item} onToggle={sync} data-reveal>
               <summary className={styles.question} onClick={toggle}>
                 <h3>{item.question}</h3>

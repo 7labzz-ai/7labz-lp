@@ -6,21 +6,21 @@ import TransitionLink from '@/components/ui/TransitionLink'
 import { gsap, prefersReducedMotion, registerGsap } from '@/lib/gsap'
 import { LOGO_BOUNDS, LOGO_GLYPHS } from '@/lib/logo'
 import { onPreloader } from '@/lib/preloader'
+import { useCopy, useLang } from '@/components/providers/Locale'
+import { COPY } from '@/content/i18n'
 import { useEffect, useRef } from 'react'
+
+import LanguageSwitch from './LanguageSwitch'
 
 import MobileMenu from './MobileMenu'
 import styles from './Nav.module.scss'
-
-const LINKS = [
-  { href: '#services', label: 'Services' },
-  { href: '#apply', label: 'Ventures' },
-  { href: '#manifesto', label: 'Manifesto' },
-]
 
 const PAD = 4
 const VIEWBOX = `${LOGO_BOUNDS.x - PAD} ${LOGO_BOUNDS.y - PAD} ${LOGO_BOUNDS.width + PAD * 2} ${LOGO_BOUNDS.height + PAD * 2}`
 
 export default function Nav() {
+  const { nav, cta } = useCopy()
+  const home = COPY[useLang()].path
   const logoRef = useRef<SVGSVGElement>(null)
 
   useEffect(() => {
@@ -60,15 +60,15 @@ export default function Nav() {
   return (
     <>
       <header className={styles.nav}>
-        <nav aria-label="Main" className={styles.links}>
-          {LINKS.map(link => (
+        <nav aria-label={nav.main} className={styles.links}>
+          {nav.links.map(link => (
             <TransitionLink key={link.href} href={link.href} className={styles.link}>
               <RollText>{link.label}</RollText>
             </TransitionLink>
           ))}
         </nav>
 
-        <TransitionLink href="/" className={styles.home} aria-label="7labz home">
+        <TransitionLink href={home} className={styles.home} aria-label={nav.home}>
           <svg ref={logoRef} viewBox={VIEWBOX} className={styles.logo} aria-hidden="true">
             <defs>
               <clipPath id="nav-logo-clip">
@@ -89,15 +89,12 @@ export default function Nav() {
         </TransitionLink>
       </header>
 
-      {/* Desktop shows the button; phones get the menu, which carries the button inside. */}
+      {/* Desktop shows the button; phones get the menu, which carries the button inside.
+          The language switch sits beside either. */}
       <div className={styles.cta}>
-        <ApplyButton
-          href="#apply"
-          label="Apply for a slot"
-          tone="gray"
-          className={styles.ctaButton}
-        />
-        <MobileMenu links={LINKS} />
+        <LanguageSwitch />
+        <ApplyButton href="#apply" label={cta} tone="gray" className={styles.ctaButton} />
+        <MobileMenu links={nav.links} />
       </div>
     </>
   )

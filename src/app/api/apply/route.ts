@@ -1,23 +1,34 @@
+import { checkLead, deliver, destinations } from '@/lib/contact'
 import { NextResponse } from 'next/server'
 
-const REQUIRED = ['name', 'email', 'company', 'building'] as const
+/** Bigger than any honest request, small enough that nobody can post a novel. */
+const MAX_BODY = 32_000
 
-/** Takes a Ventures application. Nothing stores or forwards it yet: it's only logged. */
+/**
+ * Takes a "Talk to us" request and hands it to the CRM and the inbox. It answers `ok` only
+ * once at least one of them has it, so the page never shows a success that isn't one.
+ */
 export async function POST(request: Request) {
-  const data: unknown = await request.json().catch(() => null)
-  if (!data || typeof data !== 'object') return NextResponse.json({ ok: false }, { status: 400 })
-  const fields = data as Record<string, unknown>
+  const body = await request.text().catch(() => '')
+  if (body.length > MAX_BODY) return NextResponse.json({ ok: false }, { status: 413 })
+  let input: unknown = null
+  try {
+    input = JSON.parse(body)
+  } catch {}
 
-  // The honeypot is hidden from people, so anything in it came from a bot.
-  if (fields.fax) return NextResponse.json({ ok: true })
+  const checked = checkLead(input)
+  if (!checked.ok) return NextResponse.json({ ok: false, error: checked.error }, { status: 400 })
+  if ('bot' in checked) return NextResponse.json({ ok: true })
 
-  for (const key of REQUIRED) {
-    const value = fields[key]
-    if (typeof value !== 'string' || !value.trim()) {
-      return NextResponse.json({ ok: false, missing: key }, { status: 400 })
-    }
+  const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || null
+  const list = destinations(checked.lead, process.env, ip)
+  if (!list.length) {
+    console.error('[contact] no destination configured: set CRM_FORM_URL and/or RESEND_*')
+    return NextResponse.json({ ok: false, error: 'not_configured' }, { status: 503 })
   }
 
-  console.log('[apply]', JSON.stringify(fields))
+  const { delivered } = await deliver(list)
+  if (!delivered.length)
+    return NextResponse.json({ ok: false, error: 'not_delivered' }, { status: 502 })
   return NextResponse.json({ ok: true })
 }

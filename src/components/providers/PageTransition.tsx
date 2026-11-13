@@ -16,6 +16,7 @@ import { createPortal } from 'react-dom'
 
 import { useDocumentBody } from '@/hooks/useDocumentBody'
 import { gsap, prefersReducedMotion, registerGsap } from '@/lib/gsap'
+import { onPreloader } from '@/lib/preloader'
 
 import styles from './PageTransition.module.scss'
 
@@ -246,6 +247,8 @@ function scrollToHash(hash: string, lenis?: Lenis, attempt = 0) {
     const distance = el.getBoundingClientRect().top
     if (lenis) {
       lenis.scrollTo(el, {
+        // Forced: on first load this runs as the preloader finishes, before Lenis is started.
+        force: true,
         immediate: prefersReducedMotion(),
         duration: hashScrollDuration(distance),
         easing: easeInOutCubic,
@@ -357,6 +360,21 @@ export default function PageTransition({
     },
     [lenis],
   )
+
+  // A link from outside (an ad, the language switch) can land on a section. The page opens at
+  // the top behind the preloader, so glide there once it has cleared.
+  const landedRef = useRef(false)
+  useEffect(() => {
+    if (!lenis) return
+    return onPreloader('done', () => {
+      if (landedRef.current) return
+      landedRef.current = true
+      // A beat later: the preloader still resets the page's transform, re-measures the
+      // triggers and restarts Lenis right after it marks itself done, which cancels a scroll.
+      const hash = window.location.hash
+      if (hash) window.setTimeout(() => scrollToHash(hash, lenis), 100)
+    })
+  }, [lenis])
 
   useEffect(() => {
     const onClick = (event: MouseEvent) => {
